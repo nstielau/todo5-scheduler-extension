@@ -23,8 +23,10 @@ chrome.identity.getAuthToken({ interactive: true }, (token) => {
                 console.log("Determined free periods", freePeriods);
                 freePeriods.filter(appropriateFreePeriods).forEach((period) => {
                     var nextTask = tasks.shift();
-                    console.log("Creating event at ", new Date(period.start), period, nextTask.content);
-                    createCalendarEventForTask(new Date(period.start), nextTask, nextTask);
+                    if (nextTask) {
+                        console.log("Creating event at ", new Date(period.start), period, nextTask.content);
+                        createCalendarEventForTask(new Date(period.start), nextTask, nextTask);
+                    }
                 });
             }).catch((error) => {
                 console.error('Error fetching calendar events:', error);
