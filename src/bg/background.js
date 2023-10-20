@@ -21,6 +21,11 @@ chrome.identity.getAuthToken({ interactive: true }, (token) => {
                 console.log("Found events", events);
                 const freePeriods = determineFreePeriods(events);
                 console.log("Determined free periods", freePeriods);
+                const alreadyScheduledTaskIds = events.filter((e) => e.description && e.description.match("id="))
+                                                      .map((e) => e.description.match("id=(.+)")[0].split('=')[1]);
+                const unscheduledTasks = tasks.filter((t) => !alreadyScheduledTaskIds.includes(t.id))
+                console.log("Found these scheduledTasks", alreadyScheduledTaskIds);
+                console.log("Found these unscheduledTasks", unscheduledTasks);
                 freePeriods.filter(appropriateFreePeriods).forEach((period) => {
                     var nextTask = tasks.shift();
                     if (nextTask) {
