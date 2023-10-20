@@ -1,6 +1,6 @@
 console.log("Initiating Todo5 Scheduler Extension Service Worker");
 
-import { appropriateFreePeriods, determineFreePeriods } from './library.js';
+import { appropriateFreePeriods, determineFreePeriods, stubTaskEvent } from './library.js';
 
 // Request an OAuth 2.0 token
 chrome.identity.getAuthToken({ interactive: true }, (token) => {
@@ -49,9 +49,6 @@ chrome.identity.getAuthToken({ interactive: true }, (token) => {
 
 // Function to create a 30-minute calendar event
 function createCalendarEventForTask(startTime, task) {
-  const TASK_EVENT_DURATION_MIN = 30;
-  const endTime = new Date(startTime);
-  endTime.setMinutes(startTime.getMinutes() + TASK_EVENT_DURATION_MIN);
 
   // Request OAuth token using chrome.identity
   chrome.identity.getAuthToken({ interactive: true }, (token) => {
@@ -66,15 +63,6 @@ function createCalendarEventForTask(startTime, task) {
       return;
     }
 
-    // Define the event details
-    const event = {
-      summary: '✅ ' + task.content,
-      description: task.description + "\n\n\nCreated by todo5-scheduler\nid=" + task.id,
-      start: { dateTime: startTime.toISOString()},
-      end: { dateTime: endTime.toISOString()},
-      visibility: "private",
-    };
-
     // Use the OAuth token to authorize the Google Calendar API request
     fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
       method: 'POST',
@@ -82,7 +70,7 @@ function createCalendarEventForTask(startTime, task) {
         'Authorization': `Bearer ${token}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify(event),
+      body: JSON.stringify(stubTaskEvent(startTime, 30, task)),
     })
       .then((response) => {
         if (!response.ok) {

@@ -50,3 +50,16 @@ export function determineFreePeriods(events) {
 
   return freePeriods;
 }
+
+export function stubTaskEvent(startTime, duration, task) {
+  const endTime = new Date(startTime);
+  endTime.setMinutes(startTime.getMinutes() + duration);
+
+  return {
+    summary: '✅ ' + task.content,
+    description: task.description + "\n\n\nCreated by todo5-scheduler\nid=" + task.id,
+    start: { dateTime: startTime.toISOString()},
+    end: { dateTime: endTime.toISOString()},
+    visibility: "private",
+  };
+}

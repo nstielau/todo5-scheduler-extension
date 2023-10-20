@@ -1,5 +1,6 @@
 import { appropriateFreePeriods,
-         determineFreePeriods } from './../src/bg/library.js';
+         determineFreePeriods,
+         stubTaskEvent } from './../src/bg/library.js';
 
 describe('appropriateFreePeriods function', function () {
   it('Return false for short periods', function () {
@@ -49,6 +50,33 @@ describe('determineFreePeriods function', function () {
       "end": "2023-10-20T11:00:00.000Z",
       "start": "2023-10-20T10:00:00.000Z",
      });
+  });
+});
+
+describe('stubTaskEvent function', function () {
+  it('Return an object with ✅ in summary', function () {
+    const result = stubTaskEvent(new Date(), 30, {});
+    expect(result.summary).toContain('✅');
+  });
+
+  it('Return an object with id=XYZ in description', function () {
+    const result = stubTaskEvent(new Date(), 30, {id:"1234"});
+    expect(result.description).toContain('id=1234');
+  });
+
+  it('Set the summary to task content', function () {
+    const result = stubTaskEvent(new Date(), 30, {content:"A task to do"});
+    expect(result.summary).toContain("A task to do");
+  });
+
+  it('Set the description to task description', function () {
+    const result = stubTaskEvent(new Date(), 30, {description:"description"});
+    expect(result.description).toContain("description");
+  });
+
+  it('Set private to true', function () {
+    const result = stubTaskEvent(new Date(), 30, {id:"1234"});
+    expect(result.visibility).toEqual('private');
   });
 });
 
