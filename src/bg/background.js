@@ -1,4 +1,6 @@
-console.log("Initiating Todo5 Scheduler Extension Service Worker")
+console.log("Initiating Todo5 Scheduler Extension Service Worker");
+
+import { appropriateFreePeriods } from './library.js';
 
 // Request an OAuth 2.0 token
 chrome.identity.getAuthToken({ interactive: true }, (token) => {
@@ -45,22 +47,7 @@ chrome.identity.getAuthToken({ interactive: true }, (token) => {
 });
 
 
-function appropriateFreePeriods(period) {
-    // console.log("Evaluating", period, new Date(period.start))
-    if ((new Date(period.end) - new Date(period.start)) / 1000 / 60.0 < 30) {
-        // console.log("Skipping, due to duration", period);
-        return false;
-    }
-    if (new Date(period.start).getDay() == 0 || new Date(period.start).getDay() == 6) {
-        // console.log("Skipping due to weekend", period);
-        return false;
-    }
-    if (new Date(period.start).getHours() < 9 || new Date(period.start).getHours() > 14) {
-        // console.log("Skipping, due to off hours", period);
-        return false;
-    }
-    return true;
-}
+
 
 // Determine Free Periods
 function determineFreePeriods(events) {
