@@ -203,5 +203,3 @@ async function fetchTodoistTasks(todoistApiKey) {
   }
 }
 
-// // Example usage:
-
