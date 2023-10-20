@@ -118,6 +118,7 @@ function createCalendarEventForTask(startTime, task) {
       description: task.description + "\n\n\nCreated by todo5-scheduler\nid=" + task.id,
       start: { dateTime: startTime.toISOString()},
       end: { dateTime: endTime.toISOString()},
+      visibility: "private",
     };
 
     // Use the OAuth token to authorize the Google Calendar API request
