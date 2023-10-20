@@ -14,3 +14,39 @@ export function appropriateFreePeriods(period) {
     }
     return true;
 }
+
+// Determine Free Periods
+export function determineFreePeriods(events) {
+  // Sort events by start time
+  const sortedEvents = events.sort((a, b) => new Date(a.start.dateTime) - new Date(b.start.dateTime));
+  const freePeriods = [];
+
+  // Initialize the previous end time as the start time of the specified range
+  let previousEndTime = new Date().toISOString();
+
+  for (const event of sortedEvents) {
+    const eventStartTime = new Date(event.start.dateTime).toISOString();
+    const eventEndTime = new Date(event.end.dateTime).toISOString();
+
+    if (eventStartTime > previousEndTime) {
+      // Gap between events is a free period
+      freePeriods.push({
+        start: previousEndTime,
+        end: eventStartTime,
+      });
+    }
+
+    previousEndTime = eventEndTime;
+  }
+
+  // Check for any remaining free time after the last event
+  const endTime = new Date(Date.now() + 60*60*24*1000).toISOString();
+  if (endTime > previousEndTime) {
+    freePeriods.push({
+      start: previousEndTime,
+      end: endTime,
+    });
+  }
+
+  return freePeriods;
+}
