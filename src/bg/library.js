@@ -51,15 +51,22 @@ export function determineFreePeriods(events) {
   return freePeriods;
 }
 
+export const ID_PREFIX = "id="
 export function stubTaskEvent(startTime, duration, task) {
+  const TASK_EVENT_DURATION_MIN = 30;
   const endTime = new Date(startTime);
   endTime.setMinutes(startTime.getMinutes() + duration);
 
   return {
     summary: '✅ ' + task.content,
-    description: task.description + "\n\n\nCreated by todo5-scheduler\nid=" + task.id,
+    description: task.description + `\n\n\nCreated by todo5-scheduler\n${ID_PREFIX}${task.id}`,
     start: { dateTime: startTime.toISOString()},
     end: { dateTime: endTime.toISOString()},
     visibility: "private",
   };
+}
+
+export function findAlreadyScheduledTaskIds(events) {
+  return events.filter((e) => e.description && e.description.match(ID_PREFIX))
+               .map((e) => e.description.match(`${ID_PREFIX}(.+)`)[0].split(ID_PREFIX)[1]);
 }

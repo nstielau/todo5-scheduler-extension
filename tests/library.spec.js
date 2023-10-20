@@ -1,6 +1,8 @@
 import { appropriateFreePeriods,
          determineFreePeriods,
-         stubTaskEvent } from './../src/bg/library.js';
+         stubTaskEvent,
+         findAlreadyScheduledTaskIds,
+         ID_PREFIX } from './../src/bg/library.js';
 
 describe('appropriateFreePeriods function', function () {
   it('Return false for short periods', function () {
@@ -77,6 +79,16 @@ describe('stubTaskEvent function', function () {
   it('Set private to true', function () {
     const result = stubTaskEvent(new Date(), 30, {id:"1234"});
     expect(result.visibility).toEqual('private');
+  });
+});
+
+
+describe('findAlreadyScheduledTaskIds function', function () {
+  it('Find id for event with ID_PREFIX', function () {
+    const result = findAlreadyScheduledTaskIds([
+      {description: `${ID_PREFIX}1234`}
+    ]);
+    expect(result).toStrictEqual(["1234"]);
   });
 });
 
