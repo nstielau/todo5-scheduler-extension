@@ -32,7 +32,7 @@ chrome.identity.getAuthToken({ interactive: true }, (token) => {
                     var nextTask = tasks.shift();
                     if (nextTask) {
                         console.log("Creating event at ", new Date(period.start), period, nextTask.content);
-                        createCalendarEventForTask(new Date(period.start), nextTask, nextTask);
+                        createCalendarEventForTask(new Date(period.start), nextTask);
                     }
                 });
             }).catch((error) => {
