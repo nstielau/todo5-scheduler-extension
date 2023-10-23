@@ -14,20 +14,19 @@ chrome.identity.getAuthToken({ interactive: true }, (token) => {
       console.error(chrome.runtime.lastError);
       return;
     }
-    fetchTodoistTasks(result.TODOIST_API_KEY)
-      .then((tasks) => {
-        console.log('Todoist tasks:', tasks);
-        getCalendarEvents(token).then((response) => {
-          actOnSchedulableTasks(response.items, tasks, function(period, task){
-              console.log("Creating event at ", new Date(period.start), period, task.content);
-              createCalendarEventForTask(new Date(period.start), task);
-          });
-        }).catch((error) => {
-          console.error('Error fetching calendar events:', error);
+    fetchTodoistTasks(result.TODOIST_API_KEY).then((tasks) => {
+      console.log('Todoist tasks:', tasks);
+      getCalendarEvents(token).then((response) => {
+        actOnSchedulableTasks(response.items, tasks, function(period, task){
+            console.log("Creating event at ", new Date(period.start), period, task.content);
+            createCalendarEventForTask(new Date(period.start), task);
         });
       }).catch((error) => {
-        console.error('Error fetching todoist tasks:', error);
+        console.error('Error fetching calendar events:', error);
       });
+    }).catch((error) => {
+      console.error('Error fetching todoist tasks:', error);
+    });
   });
 });
 
