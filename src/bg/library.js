@@ -51,14 +51,15 @@ export function determineFreePeriods(events) {
   return freePeriods;
 }
 
-export const ID_PREFIX = "id="
+export const ID_PREFIX = "todoist.id=";
+export const SUMMARY_PREFIX = '✅ ';
 export function stubTaskEvent(startTime, duration, task) {
   const TASK_EVENT_DURATION_MIN = 30;
   const endTime = new Date(startTime);
   endTime.setMinutes(startTime.getMinutes() + duration);
 
   return {
-    summary: '✅ ' + task.content,
+    summary: SUMMARY_PREFIX + task.content,
     description: task.description + `\n\n\nCreated by todo5-scheduler\n${ID_PREFIX}${task.id}`,
     start: { dateTime: startTime.toISOString()},
     end: { dateTime: endTime.toISOString()},

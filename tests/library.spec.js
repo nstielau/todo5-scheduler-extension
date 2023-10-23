@@ -2,7 +2,7 @@ import { appropriateFreePeriods,
          determineFreePeriods,
          stubTaskEvent,
          findAlreadyScheduledTaskIds,
-         ID_PREFIX } from './../src/bg/library.js';
+         ID_PREFIX, SUMMARY_PREFIX } from './../src/bg/library.js';
 
 describe('appropriateFreePeriods function', function () {
   it('Return false for short periods', function () {
@@ -58,7 +58,7 @@ describe('determineFreePeriods function', function () {
 describe('stubTaskEvent function', function () {
   it('Return an object with ✅ in summary', function () {
     const result = stubTaskEvent(new Date(), 30, {});
-    expect(result.summary).toContain('✅');
+    expect(result.summary).toContain(SUMMARY_PREFIX);
   });
 
   it('Return an object with id=XYZ in description', function () {
