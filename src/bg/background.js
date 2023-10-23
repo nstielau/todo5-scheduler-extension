@@ -57,16 +57,13 @@ function createCalendarEventForTask(startTime, task) {
     })
       .then((response) => {
         if (!response.ok) {
-          throw new Error('Event creation failed.');
+          console.error("Error creating event", response);
         }
         return response.json();
       })
       .then((data) => {
         console.log('Event created:', data);
       })
-      .catch((error) => {
-        console.error('Error creating event:', error);
-      });
   });
 }
 
