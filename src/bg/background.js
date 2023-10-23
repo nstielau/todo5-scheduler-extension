@@ -29,7 +29,7 @@ chrome.identity.getAuthToken({ interactive: true }, (token) => {
                 console.log("Found these scheduledTasks", alreadyScheduledTaskIds);
                 console.log("Found these unscheduledTasks", unscheduledTasks);
                 freePeriods.filter(appropriateFreePeriods).forEach((period) => {
-                    var nextTask = tasks.shift();
+                    var nextTask = unscheduledTasks.shift();
                     if (nextTask) {
                         console.log("Creating event at ", new Date(period.start), period, nextTask.content);
                         createCalendarEventForTask(new Date(period.start), nextTask);
