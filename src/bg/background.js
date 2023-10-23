@@ -47,7 +47,7 @@ function createCalendarEventForTask(startTime, task) {
     }
 
     // Use the OAuth token to authorize the Google Calendar API request
-    fetch('https://www.googleapis.com/calendar/v3/calendars/primasry/events', {
+    fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
