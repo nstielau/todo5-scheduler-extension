@@ -2,6 +2,7 @@ import { appropriateFreePeriods,
          determineFreePeriods,
          stubTaskEvent,
          findAlreadyScheduledTaskIds,
+         actOnSchedulableTasks,
          ID_PREFIX, SUMMARY_PREFIX } from './../src/bg/library.js';
 
 describe('appropriateFreePeriods function', function () {
@@ -39,7 +40,7 @@ describe('appropriateFreePeriods function', function () {
 });
 
 describe('determineFreePeriods function', function () {
-  it('Return an empty array with empty array input', function () {
+  it('Return a valid free period', function () {
     const result = determineFreePeriods([{
         start: {dateTime: '2023-10-20T09:00:00Z'},
         end: {dateTime: '2023-10-20T10:00:00Z'},
@@ -89,6 +90,48 @@ describe('findAlreadyScheduledTaskIds function', function () {
       {description: `${ID_PREFIX}1234`}
     ]);
     expect(result).toStrictEqual(["1234"]);
+  });
+});
+
+
+describe('actOnSchedulableTasks function', function () {
+  it('Calls 0 funcs without tasks', function () {
+    // actOnSchedulableTasks(events, tasks, func)
+    var calls = [];
+    const result = actOnSchedulableTasks([], [], function(period, task) {
+      calls.push([period, task])
+    });
+    expect(calls).toStrictEqual([]);
+  });
+
+  it('Calls 0 funcs if already scheduled', function () {
+    // actOnSchedulableTasks(events, tasks, func)
+    var calls = [];
+    const result = actOnSchedulableTasks([{
+      "description": `${ID_PREFIX}12345`,
+      start: {dateTime: '2023-10-23T09:00:00'},
+      end: {dateTime: '2023-10-23T10:00:00'},
+    }], [{
+      "id": "12345",
+    }], function(period, task) {
+      calls.push([period, task]);
+    });
+    expect(calls).toStrictEqual([]);
+  });
+
+  it('Calls func once', function () {
+    // actOnSchedulableTasks(events, tasks, func)
+    var calls = [];
+    const result = actOnSchedulableTasks([{
+      "description": `${ID_PREFIX}123456`,
+      start: {dateTime: '2023-10-23T09:00:00'},
+      end: {dateTime: '2023-10-23T10:00:00'},
+    }], [{
+      "id": "654321",
+    }], function(period, task) {
+      calls.push([period, task]);
+    });
+    expect(calls).toHaveLength(1);
   });
 });
 

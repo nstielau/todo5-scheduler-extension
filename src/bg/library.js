@@ -71,3 +71,21 @@ export function findAlreadyScheduledTaskIds(events) {
   return events.filter((e) => e.description && e.description.match(ID_PREFIX))
                .map((e) => e.description.match(`${ID_PREFIX}(.+)`)[0].split(ID_PREFIX)[1]);
 }
+
+export function actOnSchedulableTasks(events, tasks, func) {
+    console.log("Found events", events);
+    const freePeriods = determineFreePeriods(events);
+    console.log("Determined free periods", freePeriods);
+    const alreadyScheduledTaskIds = findAlreadyScheduledTaskIds(events);
+    const unscheduledTasks = tasks.filter((t) => !alreadyScheduledTaskIds.includes(t.id))
+    console.log("Found these scheduledTasks IDs", alreadyScheduledTaskIds);
+    console.log("Found these unscheduledTasks", unscheduledTasks);
+    console.log("Found these appropraite free periods", freePeriods.filter(appropriateFreePeriods))
+    freePeriods.filter(appropriateFreePeriods).forEach((period) => {
+        var nextTask = unscheduledTasks.shift();
+        if (nextTask) {
+          func(period, nextTask);
+        }
+    });
+    return undefined;
+}

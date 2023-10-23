@@ -1,7 +1,6 @@
 console.log("Initiating Todo5 Scheduler Extension Service Worker");
 
-import { appropriateFreePeriods, determineFreePeriods,
-         stubTaskEvent, findAlreadyScheduledTaskIds } from './library.js';
+import { stubTaskEvent, actOnSchedulableTasks } from './library.js';
 
 // Request an OAuth 2.0 token
 chrome.identity.getAuthToken({ interactive: true }, (token) => {
@@ -17,31 +16,17 @@ chrome.identity.getAuthToken({ interactive: true }, (token) => {
       }
       fetchTodoistTasks(result.TODOIST_API_KEY)
         .then((tasks) => {
-          if (tasks) {
-            console.log('Todoist tasks:', tasks);
-            getCalendarEvents(token).then((response) => {
-                const events = response.items;
-                console.log("Found events", events);
-                const freePeriods = determineFreePeriods(events);
-                console.log("Determined free periods", freePeriods);
-                const alreadyScheduledTaskIds = findAlreadyScheduledTaskIds(events);
-                const unscheduledTasks = tasks.filter((t) => !alreadyScheduledTaskIds.includes(t.id))
-                console.log("Found these scheduledTasks", alreadyScheduledTaskIds);
-                console.log("Found these unscheduledTasks", unscheduledTasks);
-                freePeriods.filter(appropriateFreePeriods).forEach((period) => {
-                    var nextTask = unscheduledTasks.shift();
-                    if (nextTask) {
-                        console.log("Creating event at ", new Date(period.start), period, nextTask.content);
-                        createCalendarEventForTask(new Date(period.start), nextTask);
-                    }
-                });
-            }).catch((error) => {
-                console.error('Error fetching calendar events:', error);
-            });
-          }
-        })
-        .catch((error) => {
-          console.error('Error:', error);
+          console.log('Todoist tasks:', tasks);
+          getCalendarEvents(token).then((response) => {
+              actOnSchedulableTasks(response.items, tasks, function(period, task){
+                  console.log("Creating event at ", new Date(period.start), period, task.content);
+                  createCalendarEventForTask(new Date(period.start), task);
+              });
+          }).catch((error) => {
+              console.error('Error fetching calendar events:', error);
+          });
+        }).catch((error) => {
+          console.error('Error fetching todoist tasks:', error);
         });
     });
 });
@@ -64,7 +49,7 @@ function createCalendarEventForTask(startTime, task) {
     }
 
     // Use the OAuth token to authorize the Google Calendar API request
-    fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
+    fetch('https://www.googleapis.com/calendar/v3/calendars/primasry/events', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`,
