@@ -3,7 +3,7 @@ console.log("Initiating Todo5 Scheduler Extension Service Worker");
 import { stubTaskEvent, actOnSchedulableTasks } from './library.js';
 
 // Request an OAuth 2.0 token
-chrome.identity.getAuthToken({ interactive: true }, (token) => {
+chrome.identity.getAuthToken({ interactive: true }, (gcalOauthToken) => {
   if (chrome.runtime.lastError) {
     console.error(chrome.runtime.lastError);
     return;
@@ -16,7 +16,7 @@ chrome.identity.getAuthToken({ interactive: true }, (token) => {
     }
     fetchTodoistTasks(result.TODOIST_API_KEY).then((tasks) => {
       console.log('Todoist tasks:', tasks);
-      getCalendarEvents(token).then((response) => {
+      getCalendarEvents(gcalOauthToken).then((response) => {
         actOnSchedulableTasks(response.items, tasks, function(period, task){
             console.log("Creating event at ", new Date(period.start), period, task.content);
             createCalendarEventForTask(new Date(period.start), task);
@@ -29,7 +29,6 @@ chrome.identity.getAuthToken({ interactive: true }, (token) => {
     });
   });
 });
-
 
 // Function to create a 30-minute calendar event
 function createCalendarEventForTask(startTime, task) {
