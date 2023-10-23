@@ -1,15 +1,15 @@
 export function appropriateFreePeriods(period) {
-    // console.log("Evaluating", period, new Date(period.start))
+    // console.debug("Evaluating", period, new Date(period.start))
     if ((new Date(period.end) - new Date(period.start)) / 1000 / 60.0 < 30) {
-        // console.log("Skipping, due to duration", period);
+        // console.debug("Skipping, due to duration", period);
         return false;
     }
     if (new Date(period.start).getDay() == 0 || new Date(period.start).getDay() == 6) {
-        // console.log("Skipping due to weekend", period);
+        // console.debug("Skipping due to weekend", period);
         return false;
     }
     if (new Date(period.start).getHours() < 9 || new Date(period.start).getHours() > 14) {
-        // console.log("Skipping, due to off hours", period);
+        // console.debug("Skipping, due to off hours", period);
         return false;
     }
     return true;
@@ -73,14 +73,14 @@ export function findAlreadyScheduledTaskIds(events) {
 }
 
 export function actOnSchedulableTasks(events, tasks, func) {
-    console.log("Found events", events);
+    console.debug("Found events", events);
     const freePeriods = determineFreePeriods(events);
-    console.log("Determined free periods", freePeriods);
+    console.debug("Determined free periods", freePeriods);
     const alreadyScheduledTaskIds = findAlreadyScheduledTaskIds(events);
     const unscheduledTasks = tasks.filter((t) => !alreadyScheduledTaskIds.includes(t.id))
-    console.log("Found these scheduledTasks IDs", alreadyScheduledTaskIds);
-    console.log("Found these unscheduledTasks", unscheduledTasks);
-    console.log("Found these appropraite free periods", freePeriods.filter(appropriateFreePeriods))
+    console.debug("Found these scheduledTasks IDs", alreadyScheduledTaskIds);
+    console.debug("Found these unscheduledTasks", unscheduledTasks);
+    console.debug("Found these appropraite free periods", freePeriods.filter(appropriateFreePeriods))
     freePeriods.filter(appropriateFreePeriods).forEach((period) => {
         var nextTask = unscheduledTasks.shift();
         if (nextTask) {
