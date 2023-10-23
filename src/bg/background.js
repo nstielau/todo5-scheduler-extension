@@ -1,6 +1,7 @@
 console.log("Initiating Todo5 Scheduler Extension Service Worker");
 
-import { appropriateFreePeriods, determineFreePeriods, stubTaskEvent } from './library.js';
+import { appropriateFreePeriods, determineFreePeriods,
+         stubTaskEvent, findAlreadyScheduledTaskIds } from './library.js';
 
 // Request an OAuth 2.0 token
 chrome.identity.getAuthToken({ interactive: true }, (token) => {
