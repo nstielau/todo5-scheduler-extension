@@ -12,7 +12,7 @@ export function appropriateFreePeriods(period) {
         // console.debug("Skipping, due to duration", period);
         return false;
     }
-    if (new Date(period.start).getDay() == 0 || new Date(period.start).getDay() == 6) {
+    if (new Date(period.start).getDay() === 0 || new Date(period.start).getDay() === 6) {
         // console.debug("Skipping due to weekend", period);
         return false;
     }
