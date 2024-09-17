@@ -96,8 +96,9 @@ export function stubTaskEvent(startTime, duration, task) {
  * @returns {Array} - Returns an array of scheduled task IDs.
  */
 export function findAlreadyScheduledTaskIds(events) {
-  return events.filter((e) => e.description && e.description.match(ID_PREFIX))
-               .map((e) => e.description.match(`${ID_PREFIX}(.+)`)[0].split(ID_PREFIX)[1]);
+  return events
+    .filter((e) => e.description && e.description.includes(ID_PREFIX))
+    .map((e) => e.description.split(ID_PREFIX)[1]);
 }
 
 /**
