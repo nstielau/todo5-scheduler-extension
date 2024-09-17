@@ -9,6 +9,10 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
         input[type="text"] {
             width: 100%;
             max-width: 400px;
@@ -20,12 +24,15 @@
     </style>
 </head>
 <body>
+    <div class="container">
+    <img src="../../icons/icon128.png" alt="Todo5 Icon" style="width: 128px; height: 128px;">
     <h1>Todo5 Scheduler Settings</h1>
     <p>Your Todoist API Key is required to fetch tasks from your Todoist account and schedule them on your Google Calendar. This key is stored locally in your browser and is never sent anywhere else.</p>
     <label for="apiKey">Todoist API Key:</label>
     <input type="text" id="apiKey" placeholder="Enter your Todoist API Key">
     <button id="save">Save</button>
 
+    </div>
     <script src="settings.js"></script>
 </body>
 </html>
