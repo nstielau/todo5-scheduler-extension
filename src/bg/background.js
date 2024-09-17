@@ -31,6 +31,12 @@ chrome.identity.getAuthToken({ interactive: true }, (gcalOauthToken) => {
 });
 
 // Function to create a 30-minute calendar event
+/**
+ * Creates a 30-minute calendar event for a given task.
+ *
+ * @param {Date} startTime - The start time for the event.
+ * @param {Object} task - The task object containing content and description.
+ */
 function createCalendarEventForTask(startTime, task) {
 
   // Request OAuth token using chrome.identity
@@ -68,6 +74,12 @@ function createCalendarEventForTask(startTime, task) {
 }
 
 
+/**
+ * Retrieves calendar events using the Google Calendar API.
+ *
+ * @param {string} token - OAuth token for authentication.
+ * @returns {Promise<Object>} - Returns a promise that resolves to the calendar events.
+ */
 function getCalendarEvents(token) {
   const baseUrl = `https://www.googleapis.com/calendar/v3/calendars/primary/events`;
   const params = new URLSearchParams({
@@ -93,6 +105,12 @@ function getCalendarEvents(token) {
 
 
 // Function to fetch Todoist tasks
+/**
+ * Fetches tasks from the Todoist API.
+ *
+ * @param {string} todoistApiKey - API key for Todoist authentication.
+ * @returns {Promise<Array|null>} - Returns a promise that resolves to an array of tasks or null if an error occurs.
+ */
 async function fetchTodoistTasks(todoistApiKey) {
   try {
     // Make a GET request to Todoist API
