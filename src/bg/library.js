@@ -32,15 +32,15 @@ export function appropriateFreePeriods(period) {
  */
 export function determineFreePeriods(events) {
   // Sort events by start time
-  const sortedEvents = events.sort((a, b) => new Date(a.start.dateTime) - new Date(b.start.dateTime));
+  const sortedEvents = events.sort((a, b) => new Date(a.start?.dateTime) - new Date(b.start?.dateTime));
   const freePeriods = [];
 
   // Initialize the previous end time as the start time of the specified range
   let previousEndTime = new Date().toISOString();
 
   for (const event of sortedEvents) {
-    const eventStartTime = new Date(event.start.dateTime).toISOString();
-    const eventEndTime = new Date(event.end.dateTime).toISOString();
+    const eventStartTime = new Date(event.start?.dateTime).toISOString();
+    const eventEndTime = new Date(event.end?.dateTime).toISOString();
 
     if (eventStartTime > previousEndTime) {
       // Gap between events is a free period
