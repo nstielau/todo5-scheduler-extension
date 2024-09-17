@@ -1,3 +1,9 @@
+global.chrome = {
+  i18n: {
+    getMessage: jest.fn().mockReturnValue("Created by todo5-scheduler"),
+  },
+};
+
 import { appropriateFreePeriods,
          determineFreePeriods,
          stubTaskEvent,
