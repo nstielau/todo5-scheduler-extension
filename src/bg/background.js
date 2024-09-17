@@ -1,6 +1,20 @@
+/**
+ * Copyright (c) 2024 Nick Stielau
+ * Licensed under the MIT License
+ */
+
 console.log("Initiating Todo5 Scheduler Extension Service Worker");
 
 import { stubTaskEvent, actOnSchedulableTasks } from './library.js';
+
+/**
+ * Keeps the service worker alive by periodically calling a Chrome API
+ * See https://stackoverflow.com/questions/66618136/persistent-service-worker-in-chrome-extension
+ */
+const keepAlive = () => setInterval(chrome.runtime.getPlatformInfo, 20e3);
+chrome.runtime.onStartup.addListener(keepAlive);
+keepAlive();
+
 
 // Request an OAuth 2.0 token
 chrome.identity.getAuthToken({ interactive: true }, (gcalOauthToken) => {

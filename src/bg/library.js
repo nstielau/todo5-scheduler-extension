@@ -1,4 +1,9 @@
 /**
+ * Copyright (c) 2024 Nick Stielau
+ * Licensed under the MIT License
+ */
+
+/**
  * Determines if a given period is appropriate based on duration, day, and time.
  *
  * @param {Object} period - The period to evaluate.

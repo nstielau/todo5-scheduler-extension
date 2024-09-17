@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2024 Nick Stielau
+ * Licensed under the MIT License
+ */
+
 document.addEventListener('DOMContentLoaded', function () {
     const apiKeyInput = document.getElementById('apiKey');
     const saveButton = document.getElementById('save');

@@ -1,3 +1,8 @@
+/**
+ * Copyright (c) 2024 Nick Stielau
+ * Licensed under the MIT License
+ */
+
 global.chrome = {
   i18n: {
     getMessage: jest.fn().mockReturnValue("Created by todo5-scheduler"),
