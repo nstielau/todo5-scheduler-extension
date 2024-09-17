@@ -115,8 +115,9 @@ export function actOnSchedulableTasks(events, tasks, func) {
     const unscheduledTasks = tasks.filter((t) => !alreadyScheduledTaskIds.includes(t.id))
     console.debug("Found these scheduledTasks IDs", alreadyScheduledTaskIds);
     console.debug("Found these unscheduledTasks", unscheduledTasks);
-    console.debug("Found these appropraite free periods", freePeriods.filter(appropriateFreePeriods))
-    freePeriods.filter(appropriateFreePeriods).forEach((period) => {
+    const appropriatePeriods = freePeriods.filter(appropriateFreePeriods);
+    console.debug("Found these appropriate free periods", appropriatePeriods);
+    appropriatePeriods.forEach((period) => {
         let nextTask = unscheduledTasks.shift();
         if (nextTask) {
           func(period, nextTask);
