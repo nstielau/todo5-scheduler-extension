@@ -11,6 +11,7 @@
   },
   "default_locale": "en",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAoNRc+6s3Xss17kqNIEmtV12WoTHyBO0VGpBys22ecMW8nljLDSAhMGL+AvdWufXdAuZiy/vHmMncdh+wlHxeIaQSc5Kl4ZUfjKGdv146il43VrrZcTlWFYDByUX7uC0d99WdPgXu3rB4WOx85OmPBn0uMWP91+gQVjwCwpZ8h7StN8XwUX+8/PSFzyYH2Why3qLlW6vkNizTkbnj7ueaVGImEMF8k4PM/tskpxLa3BHQa4KvAhf3WefmW+ps8cer7+k6bDM8CyY86uqoIe4qxmuiiq0NbmgVIjvM828eYbZ74g3qpSYxHdtMfgQ07sPMT3O0Ib+rWAWzQYlQ94akCQIDAQAB",
+  "options_page": "src/settings/settings.html",
   "background": {
     "service_worker": "src/bg/background.js",
     "type": "module"

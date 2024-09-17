@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo5 Scheduler Extension Settings</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        input[type="text"] {
+            width: 100%;
+            max-width: 400px;
+        }
+        label, input {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Todo5 Scheduler Settings</h1>
+    <p>Your Todoist API Key is required to fetch tasks from your Todoist account and schedule them on your Google Calendar. This key is stored locally in your browser and is never sent anywhere else.</p>
+    <label for="apiKey">Todoist API Key:</label>
+    <input type="text" id="apiKey" placeholder="Enter your Todoist API Key">
+    <button id="save">Save</button>
+
+    <script src="settings.js"></script>
+</body>
+</html>
