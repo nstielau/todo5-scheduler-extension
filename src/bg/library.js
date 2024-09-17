@@ -82,7 +82,7 @@ export function stubTaskEvent(startTime, duration, task) {
 
   return {
     summary: SUMMARY_PREFIX + task.content,
-    description: task.description + `\n\n\nCreated by todo5-scheduler\n${ID_PREFIX}${task.id}`,
+    description: `${task.description}\n\n\nCreated by todo5-scheduler\n${ID_PREFIX}${task.id}`,
     start: { dateTime: startTime.toISOString()},
     end: { dateTime: endTime.toISOString()},
     visibility: "private",
