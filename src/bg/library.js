@@ -32,7 +32,8 @@ export function appropriateFreePeriods(period) {
  */
 export function determineFreePeriods(events) {
   // Sort events by start time
-  const sortedEvents = events.sort((a, b) => new Date(a.start?.dateTime) - new Date(b.start?.dateTime));
+  const filteredEvents = events.filter(event => event.eventType !== "working location" && event.start?.dateTime && event.end?.dateTime);
+  const sortedEvents = filteredEvents.sort((a, b) => new Date(a.start?.dateTime) - new Date(b.start?.dateTime));
   const freePeriods = [];
 
   // Initialize the previous end time as the start time of the specified range
