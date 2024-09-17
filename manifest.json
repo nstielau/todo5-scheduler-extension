@@ -16,6 +16,14 @@
     "service_worker": "src/bg/background.js",
     "type": "module"
   },
+  "action": {
+    "default_popup": "src/page_action/page_action.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
   "permissions": [
     "identity",
     "storage"
