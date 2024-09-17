@@ -36,7 +36,7 @@ export function determineFreePeriods(events) {
   const freePeriods = [];
 
   // Initialize the previous end time as the start time of the specified range
-  const previousEndTime = new Date().toISOString();
+  let previousEndTime = new Date().toISOString();
 
   for (const event of sortedEvents) {
     const eventStartTime = new Date(event.start.dateTime).toISOString();
