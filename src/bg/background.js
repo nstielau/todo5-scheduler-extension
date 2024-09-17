@@ -37,7 +37,7 @@ chrome.identity.getAuthToken({ interactive: true }, (gcalOauthToken) => {
  * @param {Date} startTime - The start time for the event.
  * @param {Object} task - The task object containing content and description.
  */
-function createCalendarEventForTask(startTime, task) {
+const createCalendarEventForTask = (startTime, task) => {
 
   // Request OAuth token using chrome.identity
   chrome.identity.getAuthToken({ interactive: true }, (token) => {
