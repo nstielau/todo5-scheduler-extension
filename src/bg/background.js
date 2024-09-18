@@ -109,15 +109,6 @@ function getCalendarEvents(token) {
 }
 
 
-// chrome.storage.sync.set({ 'TODOIST_API_KEY': 'asdfasdfas' }, () => {
-//   if (chrome.runtime.lastError) {
-//     console.error(chrome.runtime.lastError);
-//     return;
-//   }
-//   console.log('Setting saved');
-// });
-
-
 // Function to fetch Todoist tasks
 /**
  * Fetches tasks from the Todoist API.
