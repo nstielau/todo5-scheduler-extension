@@ -145,5 +145,8 @@ async function fetchTodoistTasks(todoistApiKey) {
 
 
 // Run the scheduler immediately and then every hour
-runScheduler();
-setInterval(runScheduler, 60 * 60 * 1000);
+chrome.storage.sync.get(['SCHEDULER_INTERVAL'], function (result) {
+  const interval = result.SCHEDULER_INTERVAL || 60; // Default to 60 minutes
+  runScheduler();
+  setInterval(runScheduler, interval * 60 * 1000);
+});
