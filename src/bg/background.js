@@ -16,33 +16,34 @@ chrome.runtime.onStartup.addListener(keepAlive);
 keepAlive();
 
 
-// Request an OAuth 2.0 token
-chrome.identity.getAuthToken({ interactive: true }, (gcalOauthToken) => {
-  if (chrome.runtime.lastError) {
-    console.error(chrome.runtime.lastError);
-    return;
-  }
-
-  chrome.storage.sync.get(['TODOIST_API_KEY'], (result) => {
+function runScheduler() {
+  chrome.identity.getAuthToken({ interactive: true }, (gcalOauthToken) => {
     if (chrome.runtime.lastError) {
       console.error(chrome.runtime.lastError);
       return;
     }
-    fetchTodoistTasks(result.TODOIST_API_KEY).then((tasks) => {
-      console.log('Todoist tasks:', tasks);
-      getCalendarEvents(gcalOauthToken).then((response) => {
-        actOnSchedulableTasks(response.items, tasks, function(period, task){
-            console.log("Creating event at ", new Date(period.start), period, task.content);
-            createCalendarEventForTask(new Date(period.start), task);
+
+    chrome.storage.sync.get(['TODOIST_API_KEY'], (result) => {
+      if (chrome.runtime.lastError) {
+        console.error(chrome.runtime.lastError);
+        return;
+      }
+      fetchTodoistTasks(result.TODOIST_API_KEY).then((tasks) => {
+        console.log('Todoist tasks:', tasks);
+        getCalendarEvents(gcalOauthToken).then((response) => {
+          actOnSchedulableTasks(response.items, tasks, function(period, task){
+              console.log("Creating event at ", new Date(period.start), period, task.content);
+              createCalendarEventForTask(new Date(period.start), task);
+          });
+        }).catch((error) => {
+          console.error('Error fetching calendar events:', error);
         });
       }).catch((error) => {
-        console.error('Error fetching calendar events:', error);
+        console.error('Error fetching todoist tasks:', error);
       });
-    }).catch((error) => {
-      console.error('Error fetching todoist tasks:', error);
     });
   });
-});
+}
 
 // Function to create a 30-minute calendar event
 /**
@@ -142,3 +143,7 @@ async function fetchTodoistTasks(todoistApiKey) {
   }
 }
 
+
+// Run the scheduler immediately and then every hour
+runScheduler();
+setInterval(runScheduler, 60 * 60 * 1000);
