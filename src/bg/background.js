@@ -17,6 +17,7 @@ keepAlive();
 
 
 function runScheduler() {
+  console.log("Running scheduler based on interval");
   chrome.identity.getAuthToken({ interactive: true }, (gcalOauthToken) => {
     if (chrome.runtime.lastError) {
       console.error(chrome.runtime.lastError);
